@@ -149,7 +149,10 @@
 *
 *       Define the angular velocity (z-component) and mass in N-body units.
           R02 = RG(1)**2 + RG(2)**2
-          OMEGA = (RG(1)*VG(2) - RG(2)*VG(1))/R02
+c          OMEGA = (RG(1)*VG(2) - RG(2)*VG(1))/R02
+c       in the case of Allen & Santillan potential, assume kappa = 1.4omega (eq. 9 in Kuepper et al. 2010)
+          omega = sqrt(VG(1)**2+VG(2)**2+VG(3)**2)/ 
+     &     sqrt(RG(1)**2+RG(2)**2+RG(3)**2)
           TIDAL(4) = 2.0*OMEGA
           GMG = GMG/ZMTOT
           GMB = GMB/ZMTOT
@@ -158,7 +161,7 @@
 *       Form tidal radius from circular angular velocity (assumes apocentre).
           IF (RTIDE.EQ.0.0D0) RTIDE = (0.5/OMEGA**2)**0.3333
 *       Adopt a tidal radius of 10 units unless specified by routine SCALE.
-C          IF (RTIDE.EQ.0.0D0) RTIDE = 10.0
+c          IF (RTIDE.EQ.0.0D0) RTIDE = 10.0
 *
           if(rank.eq.0.and.GMG.GT.0.0)
      &    WRITE (6,35)  GMG, SQRT(R02), OMEGA, RTIDE, RBAR
